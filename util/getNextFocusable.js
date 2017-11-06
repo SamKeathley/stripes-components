@@ -1,17 +1,18 @@
 /*  Returns next focusable DOM element
-*   Params: 
+*   Params:
 *     currentElement - (object) DOM element - starting element for search. Will return next focused element AFTER this element.
 *     containing - (bool) Default: true. Will return the next focusable item within the current element.
 */
 
 import contains from 'dom-helpers/query/contains';
+
 export default function getNextFocusable(currentElement, containing = true) {
-  //add all elements we want to include in our selection
+  // add all elements we want to include in our selection
   const focusableElements = 'a:not([disabled]), button:not([disabled]), input[type=text]:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
   let focusable = Array.prototype.filter.call(document.querySelectorAll(focusableElements),
     function (element) {
-      //check for visibility while always include the current activeElement 
-      return element.offsetWidth > 0 || element.offsetHeight > 0 || element === document.activeElement
+      // check for visibility while always include the current activeElement
+      return element.offsetWidth > 0 || element.offsetHeight > 0 || element === document.activeElement;
     });
   if (!containing) {
     const outside = Array.prototype.filter.call(focusable, (element) => {
