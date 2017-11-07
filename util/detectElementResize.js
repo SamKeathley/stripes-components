@@ -20,26 +20,26 @@ export default function createDetectElementResize() {
     _window = this;
   }
 
-  let attachEvent = typeof document !== 'undefined' && document.attachEvent;
+  const attachEvent = typeof document !== 'undefined' && document.attachEvent;
 
   if (!attachEvent) {
-    let requestFrame = (function () {
-      let raf = _window.requestAnimationFrame || _window.mozRequestAnimationFrame || _window.webkitRequestAnimationFrame ||
+    const requestFrame = (function () {
+      const raf = _window.requestAnimationFrame || _window.mozRequestAnimationFrame || _window.webkitRequestAnimationFrame ||
                 function (fn) { return _window.setTimeout(fn, 20); };
       return function (fn) { return raf(fn); };
     }());
 
-    let cancelFrame = (function () {
-      let cancel = _window.cancelAnimationFrame || _window.mozCancelAnimationFrame || _window.webkitCancelAnimationFrame ||
+    const cancelFrame = (function () {
+      const cancel = _window.cancelAnimationFrame || _window.mozCancelAnimationFrame || _window.webkitCancelAnimationFrame ||
                    _window.clearTimeout;
       return function (id) { return cancel(id); };
     }());
 
-    let resetTriggers = function (element) {
-      let triggers = element.__resizeTriggers__;
-      let expand = triggers.firstElementChild;
-      let contract = triggers.lastElementChild;
-      let expandChild = expand.firstElementChild;
+    const resetTriggers = function (element) {
+      const triggers = element.__resizeTriggers__;
+      const expand = triggers.firstElementChild;
+      const contract = triggers.lastElementChild;
+      const expandChild = expand.firstElementChild;
       contract.scrollLeft = contract.scrollWidth;
       contract.scrollTop = contract.scrollHeight;
       expandChild.style.width = expand.offsetWidth + 1 + 'px';
@@ -48,12 +48,12 @@ export default function createDetectElementResize() {
       expand.scrollTop = expand.scrollHeight;
     };
 
-    let checkTriggers = function (element) {
+    const checkTriggers = function (element) {
       return element.offsetWidth !== element.__resizeLast__.width ||
              element.offsetHeight !== element.__resizeLast__.height;
     };
 
-    let scrollListener = function (e) {
+    const scrollListener = function (e) {
       // Don't measure (which forces) reflow for scrolls that happen inside of children!
       if (
         e.target.className.indexOf('contract-trigger') < 0 &&
@@ -62,7 +62,7 @@ export default function createDetectElementResize() {
         return;
       }
 
-      let element = this;
+      const element = this;
       resetTriggers(this);
       if (this.__resizeRAF__) cancelFrame(this.__resizeRAF__);
       this.__resizeRAF__ = requestFrame(function () {
@@ -81,11 +81,11 @@ export default function createDetectElementResize() {
     let animationstring = 'animation';
     let keyframeprefix = '';
     let animationstartevent = 'animationstart';
-    let domPrefixes = 'Webkit Moz O ms'.split(' ');
-    let startEvents = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' ');
+    const domPrefixes = 'Webkit Moz O ms'.split(' ');
+    const startEvents = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' ');
     let pfx = '';
     {
-      let elm = document.createElement('fakeelement');
+      const elm = document.createElement('fakeelement');
       if (elm.style.animationName !== undefined) { animation = true; }
 
       if (animation === false) {
@@ -102,19 +102,19 @@ export default function createDetectElementResize() {
       }
     }
 
-    let animationName = 'resizeanim';
-    let animationKeyframes = '@' + keyframeprefix + 'keyframes ' + animationName + ' { from { opacity: 0; } to { opacity: 0; } } ';
-    let animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
+    const animationName = 'resizeanim';
+    const animationKeyframes = '@' + keyframeprefix + 'keyframes ' + animationName + ' { from { opacity: 0; } to { opacity: 0; } } ';
+    const animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
   }
 
-  let createStyles = function () {
+  const createStyles = function () {
     if (!document.getElementById('detectElementResize')) {
       // opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id=286360
-      let css = (animationKeyframes: '') +
+      const css = (animationKeyframes: '') +
           '.resize-triggers { ' + (animationStyle: '') + 'visibility: hidden; opacity: 0; } ' +
           '.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: \" \"; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; z-index: -1; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }';
-      let head = document.head || document.getElementsByTagName('head')[0];
-      let style = document.createElement('style');
+      const head = document.head || document.getElementsByTagName('head')[0];
+      const style = document.createElement('style');
 
       style.id = 'detectElementResize';
       style.type = 'text/css';
@@ -128,11 +128,11 @@ export default function createDetectElementResize() {
     }
   };
 
-  let addResizeListener = function (element, fn) {
+  const addResizeListener = function (element, fn) {
     if (attachEvent) element.attachEvent('onresize', fn);
     else {
       if (!element.__resizeTriggers__) {
-        let elementStyle = _window.getComputedStyle(element);
+        const elementStyle = _window.getComputedStyle(element);
         if (elementStyle && elementStyle.position === 'static') {
           element.style.position = 'relative';
         }
@@ -162,7 +162,7 @@ export default function createDetectElementResize() {
     }
   };
 
-  let removeResizeListener = function (element, fn) {
+  const removeResizeListener = function (element, fn) {
     if (attachEvent) element.detachEvent('onresize', fn);
     else {
       element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);

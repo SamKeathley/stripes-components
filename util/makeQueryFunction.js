@@ -14,7 +14,7 @@ function makeQueryFunction(findAll, queryTemplate, sortMap, filterConfig) {
       }
     }
 
-    let { sort } = queryParams || {};
+    const { sort } = queryParams || {};
     if (sort) {
       const sortIndexes = sort.split(',').map((sort1) => {
         let reverse = false;
