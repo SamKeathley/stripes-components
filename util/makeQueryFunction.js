@@ -25,7 +25,7 @@ function makeQueryFunction(findAll, queryTemplate, sortMap, filterConfig) {
         }
         let sortIndex = sortMap[sortKey] || sortKey;
         if (reverse) {
-          sortIndex = sortIndex.replace(' ', '/sort.descending ') + '/sort.descending';
+          sortIndex = `${sortIndex.replace('', '/sort.descending')} /sort.descending`;
         }
         return sortIndex;
       });
