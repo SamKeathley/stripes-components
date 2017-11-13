@@ -29,4 +29,5 @@ export default function getNextFocusable(currentElement, containing = true) {
     const nextElement = focusable[index + 1] || focusable[0];
     return nextElement;
   }
+  return undefined;
 }
