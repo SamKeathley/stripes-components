@@ -16,13 +16,14 @@ function makeQueryFunction(findAll, queryTemplate, sortMap, filterConfig) {
 
     const { sort = '' } = queryParams;
     if (sort) {
-      const sortIndexes = sort.split(',').map((sort1) => {
+      const sortIndexes = sort.split(',').map((sortParam) => {
+        let sortKey = sortParam;
         let reverse = false;
-        if (sort1.startsWith('-')) {
-          sort1 = sort1.substr(1);
+        if (sortParam.startsWith('-')) {
+          sortKey = sortParam.substr(1);
           reverse = true;
         }
-        let sortIndex = sortMap[sort1] || sort1;
+        let sortIndex = sortMap[sortKey] || sortKey;
         if (reverse) {
           sortIndex = sortIndex.replace(' ', '/sort.descending ') + '/sort.descending';
         }
